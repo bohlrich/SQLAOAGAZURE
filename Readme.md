@@ -3,6 +3,7 @@
 ## Links
 
 [Exchange dev/test environments in Azure](https://docs.microsoft.com/en-us/exchange/plan-and-deploy/deploy-new-installations/create-azure-test-environments?view=exchserver-2019)
+
 [Tutorial: Manually configure an availability group](https://docs.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/availability-group-manually-configure-tutorial-single-subnet)
 
 ## Requirements
