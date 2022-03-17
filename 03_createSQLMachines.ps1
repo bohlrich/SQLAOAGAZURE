@@ -1,13 +1,13 @@
 # Festlegen der Namen für die zu erstellenden Maschinen
 $servers = @("sql01","sql02")
-
+$i = 5
 
 foreach($server in $servers)
 {
     # Festlegen des Names für den ersten SQL Server Knoten
     $vmDNSName="$server"
     # Resourcegruppe aus dem 01_createEnvironment.ps1
-    $rgName="TestSQLAGRG"
+    $rgName="50108"
     $locName=(Get-AZResourceGroup -Name $rgName).Location
     Test-AZDnsAvailability -DomainQualifiedName $vmDNSName -Location $locName
     
@@ -31,7 +31,7 @@ foreach($server in $servers)
     $nicName=$vmName + "-NIC"
     $pipName=$vmName + "-PublicIP"
     $pip=New-AZPublicIpAddress -Name $pipName -ResourceGroupName $rgName -DomainNameLabel $vmDNSName -Location $locName -AllocationMethod Dynamic
-    $nic=New-AZNetworkInterface -Name $nicName -ResourceGroupName $rgName -Location $locName -SubnetId $vnet.Subnets[0].Id -PublicIpAddressId $pip.Id -PrivateIpAddress "10.0.0.5"
+    $nic=New-AZNetworkInterface -Name $nicName -ResourceGroupName $rgName -Location $locName -SubnetId $vnet.Subnets[0].Id -PublicIpAddressId $pip.Id -PrivateIpAddress "10.0.0.$i"
     # Create and configure the virtual machine
     $cred=Get-Credential -Message "Type the name and password of the local administrator account for sqlVM."
     $vm=Set-AZVMOSDisk -VM $vm -Name ($vmName +"-OS") -DiskSizeInGB 128 -CreateOption FromImage -StorageAccountType "Standard_LRS"
@@ -39,4 +39,6 @@ foreach($server in $servers)
     $vm=Set-AZVMSourceImage -VM $vm -PublisherName MicrosoftWindowsServer -Offer WindowsServer -Skus 2019-Datacenter -Version "latest"
     $vm=Add-AZVMNetworkInterface -VM $vm -Id $nic.Id
     New-AZVM -ResourceGroupName $rgName -Location $locName -VM $vm
+
+    $i++
 }

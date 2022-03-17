@@ -7,7 +7,7 @@ Format-Volume -DriveLetter F
 
 # Windows Feature installieren und Domain erstellen
 Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
-Install-ADDSForest -DomainName testsqlag.local -DatabasePath "F:\NTDS" -SysvolPath "F:\SYSVOL" -LogPath "F:\Logs"
+Install-ADDSForest -DomainName testsql.local -DatabasePath "F:\NTDS" -SysvolPath "F:\SYSVOL" -LogPath "F:\Logs"
 
 # Nach dem erfolgtem Neustart noch die Tools installieren
 Add-WindowsFeature RSAT-ADDS-Tools
